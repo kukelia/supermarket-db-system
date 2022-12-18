@@ -1,0 +1,7 @@
+Una tienda online cuenta con empleados con dni, nombre, apellido, edad.
+la tienda tiene productos con id, nombre, precio, categoria(comestible, bebible, otro)
+cada cliente tiene nombre, apellido, dni, y un carrito que puede contener 0 o muchos productos.
+cuando un cliente realiza una compra, se registra: fecha, precio total, productos comprados, 
+cliente que compro y empleado que lo atendio.
+
+realizar la base de datos correspondiente
