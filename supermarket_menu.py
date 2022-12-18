@@ -22,9 +22,12 @@ def ver():
     id = int(input("seleccione el id del elemento a visualizar: "))
     #what if none?
     cursor.execute(f"SELECT * FROM {table_names[entity]} WHERE {pks[entity]} = {id};") 
-    result = cursor.fetchone()
-    print(result)
-    
+    if cursor.rowcount == 0:
+        print(f"ningun resultado con {pks[entity]} igual a {id}")
+        return
+    else:
+        print(cursor.fetchone())
+        return
 
 
 def agregar_producto():
@@ -35,13 +38,37 @@ def agregar_producto():
     cursor.execute( f"INSERT INTO productos VALUES ({id}, '{nombre}', {precio}, '{cat}');")
 
 
-def agregar_compra():
+def realizar_compra():
     dni = input("ingrese dni cliente: ")
     cursor.execute(f"SELECT * FROM clientes WHERE id == {dni};")
     if cursor.rowcount == 0:
         print("el cliente no existe, debera ser agregado")
         agregar_cliente(dni)
-    # cursor.execute(f"INSERT INTO producto VALUES ({id}, {nombre}, {precio}, {cat});")
+    cursor.execute("BEGIN;")
+    cursor.execute(f"""INSERT INTO compras (dni_cliente, dni_empleado)
+                    VALUES {dni}, {dni_empleado} RETURNING id_compra""")
+    for id_producto in carrito:
+        cursor.execute(f"""INSERT INTO productos_comprados (id_compra, id_producto)")
+    VALUES (id_compra, {id_producto}); """)
+    cursor.execute(f"""SELECT productos_comprados.id_producto, productos.precio
+                    FROM productos_comprados
+                    INNER JOIN productos ON productos_comprados.id_producto = productos.id_producto
+                    GROUP BY productos_comprados.id_producto;
+                    
+    """)
+
+    cursor.execute("COMMIT;")
+    
+    
+
+def agregar_carrito():
+    id = input("ingrese id: ")
+    cursor.execute(f"SELECT * FROM productos WHERE id == {id};")
+    if cursor.rowcount == 0:
+        print("no existe ese producto")
+        return
+    else:
+        carrito.append(id)
 
 
 
@@ -60,7 +87,9 @@ def agregar_cliente(dni):
     edad = input("ingrese edad: ")
     cursor.execute( f"INSERT INTO clientes VALUES ({dni}, '{nombre}', '{ape}', {edad});")
 
+carrito = []
 x = 0
+dni_empleado=0
 
 while True:
     if x == 1:
@@ -80,8 +109,10 @@ while True:
     -> """))
 
     match operation:
+        case 0:
+            agregar_carrito()
         case 1:
-            agregar_compra()
+            realizar_compra()
         case 2:
             agregar_producto()
         case 3:
