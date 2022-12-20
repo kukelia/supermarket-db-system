@@ -69,16 +69,16 @@ def realizar_compra():
                                 WHERE producto_vendido = {id_producto_vendido}
                                 """)
 
-            os.system(f"""echo "LOG
-                INSERT INTO productos_comprados (id_compra, id_producto)
-                VALUES ({id_compra}, {id_producto}) RETURNING producto_vendido ;
+            # os.system(f"""echo "LOG
+            #     INSERT INTO productos_comprados (id_compra, id_producto)
+            #     VALUES ({id_compra}, {id_producto}) RETURNING producto_vendido ;
 
-                with precio_actual as
-                (SELECT precio FROM productos WHERE id_producto={id_producto})
-                UPDATE productos_comprados
-                SET precio_compra = precio_actual.precio FROM precio_actual
-                WHERE producto_vendido = {id_producto_vendido}" >> logs/log.txt
-                """)  
+            #     with precio_actual as
+            #     (SELECT precio FROM productos WHERE id_producto={id_producto})
+            #     UPDATE productos_comprados
+            #     SET precio_compra = precio_actual.precio FROM precio_actual
+            #     WHERE producto_vendido = {id_producto_vendido}" >> logs/log.txt
+            #     """)  
 
         cursor.execute(f"""
                     SELECT sum FROM(
@@ -90,7 +90,7 @@ def realizar_compra():
         where result_table.id_compra={id_compra}
         """)
         precio_total = cursor.fetchone()[0]
-        cursor.execute(f"UPDATE compras SET precio_total={precio_total} WHERE id_compra=id_compra")
+        cursor.execute(f"UPDATE compras SET precio_total={precio_total} WHERE id_compra={id_compra}")
 
         cursor.execute("COMMIT;")
         carrito= []
