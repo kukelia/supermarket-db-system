@@ -43,60 +43,46 @@ def agregar_producto():
 
 
 def realizar_compra():
-    # try:
-        global carrito
-        dni = input("ingrese dni cliente: ")
-        cursor.execute(f"SELECT * FROM clientes WHERE dni = {dni};")
-        if cursor.rowcount == 0:
-            print("el cliente no existe, debera ser agregado")
-            agregar_cliente(dni)
-        
-        cursor.execute("BEGIN;")
-        cursor.execute(f"""INSERT INTO compras (dni_cliente, dni_empleado)
-                        VALUES ({dni}, {dni_empleado}) RETURNING *""")
-        id_compra = cursor.fetchone()[0]
-        for id_producto in carrito:
-            cursor.execute(f"""
-                                INSERT INTO productos_comprados (id_compra, id_producto)
-                                VALUES ({id_compra}, {id_producto}) RETURNING producto_vendido ;""")
-            id_producto_vendido = cursor.fetchone()[0] 
-            print(f"id del producto vendido es {id_producto_vendido}")      
-            cursor.execute(f"""       
-                                with precio_actual as
-                                (SELECT precio FROM productos WHERE id_producto={id_producto})
-                                UPDATE productos_comprados
-                                SET precio_compra = precio_actual.precio FROM precio_actual
-                                WHERE producto_vendido = {id_producto_vendido}
-                                """)
 
-            # os.system(f"""echo "LOG
-            #     INSERT INTO productos_comprados (id_compra, id_producto)
-            #     VALUES ({id_compra}, {id_producto}) RETURNING producto_vendido ;
-
-            #     with precio_actual as
-            #     (SELECT precio FROM productos WHERE id_producto={id_producto})
-            #     UPDATE productos_comprados
-            #     SET precio_compra = precio_actual.precio FROM precio_actual
-            #     WHERE producto_vendido = {id_producto_vendido}" >> logs/log.txt
-            #     """)  
-
+    global carrito
+    dni = input("ingrese dni cliente: ")
+    cursor.execute(f"SELECT * FROM clientes WHERE dni = {dni};")
+    if cursor.rowcount == 0:
+        print("el cliente no existe, debera ser agregado")
+        agregar_cliente(dni)
+    
+    cursor.execute("BEGIN;")
+    cursor.execute(f"""INSERT INTO compras (dni_cliente, dni_empleado)
+                    VALUES ({dni}, {dni_empleado}) RETURNING *""")
+    id_compra = cursor.fetchone()[0]
+    for id_producto in carrito:
         cursor.execute(f"""
-                    SELECT sum FROM(
-                        SELECT productos_comprados.id_compra, SUM(productos.precio)
-                        FROM productos_comprados
-                        INNER JOIN productos ON productos_comprados.id_producto = productos.id_producto
-                        GROUP BY productos_comprados.id_compra
-            ) as result_table
-        where result_table.id_compra={id_compra}
-        """)
-        precio_total = cursor.fetchone()[0]
-        cursor.execute(f"UPDATE compras SET precio_total={precio_total} WHERE id_compra={id_compra}")
+                            INSERT INTO productos_comprados (id_compra, id_producto)
+                            VALUES ({id_compra}, {id_producto}) RETURNING producto_vendido ;""")
+        id_producto_vendido = cursor.fetchone()[0] 
+    
+        cursor.execute(f"""       
+                            with precio_actual as
+                            (SELECT precio FROM productos WHERE id_producto={id_producto})
+                            UPDATE productos_comprados
+                            SET precio_compra = precio_actual.precio FROM precio_actual
+                            WHERE producto_vendido = {id_producto_vendido}
+                            """)
 
-        cursor.execute("COMMIT;")
-        carrito= []
-    # except:
-    #     print("ha ocurrido un error")
-    #     cursor.execute("ROLLBACK;")
+    cursor.execute(f"""
+                SELECT sum FROM(
+                    SELECT productos_comprados.id_compra, SUM(productos.precio)
+                    FROM productos_comprados
+                    INNER JOIN productos ON productos_comprados.id_producto = productos.id_producto
+                    GROUP BY productos_comprados.id_compra
+        ) as result_table
+    where result_table.id_compra={id_compra}
+    """)
+    precio_total = cursor.fetchone()[0]
+    cursor.execute(f"UPDATE compras SET precio_total={precio_total} WHERE id_compra={id_compra}")
+
+    cursor.execute("COMMIT;")
+    carrito= []
     
 
 
