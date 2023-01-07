@@ -6,6 +6,8 @@ Desing and implementation of a Normalized database, and a python application int
 
 * Designing Database from scratch (ERD and implementation)
 * Grouping App interface's operations in Transactions, and committing them when all requirements were satisfied
-* Making the app portable with docker to run in every device (soon)
+* Making the app portable with docker to run in every device (soon)  
+  
+### Physical data model:
 
 <img src="https://github.com/kukelia/supermarket-db-system/blob/master/physical_data_model.png" alt="drawing" width="550"/>
