@@ -1,0 +1,20 @@
+services:
+  db:
+    build: ./db/
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_db:/var/lib/postgresql/data
+    
+  pgadmin:
+    image: pgadmin4
+    ports:
+      -80:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=h@hotmail.com
+      - PGADMIN_DEFAULT_PASSWORD=password
+  app:
+    build: /app/
+
+volumes:
+  postgres_db

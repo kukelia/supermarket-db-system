@@ -6,8 +6,8 @@ cliente que compro y empleado que lo atendio.
 
 Realizar la base de datos correspondiente y una aplicacion que permita:
 
--Agregar y eliminar productos a la db
+-Agregar y eliminar productos a la DB
 -Agregar productos a un carrito
 -Autenticar clientes y empleados
--Visualizar dato de alguna tabla de la db dado un id
+-Visualizar dato de alguna tabla de la DB dado un id
 -Realizar una compra
