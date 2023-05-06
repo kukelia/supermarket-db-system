@@ -3,8 +3,9 @@
     include ENV var from os ✔️,
     adopt SQLalchemy ✔️,
     db server changed ✔️,
-    updated db table names and attributes,
-    make app work,
+    updated db table names and attributes,✔️
+    make app work,✔️
     add fk restrictions, ✔️
-    updating composite pk to make query in app
+    updating composite pk to make query in app, ✔️
+    update for quantity
 )
