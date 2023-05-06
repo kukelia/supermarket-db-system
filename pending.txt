@@ -1,0 +1,10 @@
+-Containerize app
+-update python app (
+    include ENV var from os ✔️,
+    adopt SQLalchemy ✔️,
+    db server changed ✔️,
+    updated db table names and attributes,
+    make app work,
+    add fk restrictions, ✔️
+    updating composite pk to make query in app
+)

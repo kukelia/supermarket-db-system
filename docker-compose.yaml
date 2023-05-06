@@ -5,16 +5,43 @@ services:
       - 5432:5432
     volumes:
       - postgres_db:/var/lib/postgresql/data
-    
+    networks:
+      - supermarket-network
+    env_file:
+      - env_vars.txt
+    # ./f.txt == f.txt
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready --dbname $$POSTGRES_DB --username $$POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+
   pgadmin:
-    image: pgadmin4
+    image: dpage/pgadmin4
     ports:
-      -80:80
+      - 80:80
     environment:
       - PGADMIN_DEFAULT_EMAIL=h@hotmail.com
       - PGADMIN_DEFAULT_PASSWORD=password
+    networks:
+      - supermarket-network
+
   app:
     build: /app/
+    networks:
+      - supermarket-network
+    env_file:
+      - ./env_vars.txt
+    stdin_open: true
+    tty: true
+    depends_on:
+      db:
+        condition: service_healthy
 
 volumes:
-  postgres_db
+  postgres_db:
+    external: true
+
+networks:
+  supermarket-network:
+    driver: bridge
