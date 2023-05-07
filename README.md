@@ -17,7 +17,7 @@ Made with PGadmin4's ERD tool
 
 ### App's connection to DB code:
 
-<img src="https://github.com/kukelia/supermarket-db-system/blob/master/img/app_connection.png" alt="drawing" width="900"/>
+<img src="https://github.com/kukelia/supermarket-db-system/blob/master/img/app_connection1.png" alt="drawing" width="900"/>
 
 ### SQL Query example:
 
