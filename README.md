@@ -15,7 +15,7 @@ the docker compose commands required for its functionality
 <img src="https://github.com/kukelia/supermarket-db-system/blob/master/img/ERD.png" alt="drawing" width="1100"/>
 Made with PGadmin4's ERD tool
 
-### App connection code:
+### App's connection to DB code:
 
 <img src="https://github.com/kukelia/supermarket-db-system/blob/master/img/app_connection.png" alt="drawing" width="900"/>
 
