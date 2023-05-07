@@ -19,6 +19,6 @@ Made with PGadmin4's ERD tool
 
 <img src="https://github.com/kukelia/supermarket-db-system/blob/master/img/app_connection.png" alt="drawing" width="900"/>
 
-### SQL Query examplpe:
+### SQL Query example:
 
 <img src="https://github.com/kukelia/supermarket-db-system/blob/master/img/query_example.png" alt="drawing" width="900"/>

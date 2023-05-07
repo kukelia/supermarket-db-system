@@ -153,7 +153,7 @@ dni_empleado = 0
 if __name__ == '__main__':
     sleep(2) # wait for docker attach command
     conn = engine.connect()
-    print("engine conenected")
+    print("engine conected")
     
     # LOG IN empleado
     if dni_empleado != 0:
